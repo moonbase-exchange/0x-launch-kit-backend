@@ -89,9 +89,6 @@ export class OrderBook {
         if (rejected.length !== 0) {
             throw new Error(rejected[0].message);
         }
-        const connection = getDBConnection();
-        const signedOrderModel = serializeOrder(signedOrder);
-        await connection.manager.save(signedOrderModel);
     }
     public async getOrderBookAsync(
         page: number,
@@ -172,14 +169,14 @@ export class OrderBook {
                 signedOrder =>
                     ordersFilterParams.makerAssetProxyId === undefined ||
                     assetDataUtils.decodeAssetDataOrThrow(signedOrder.makerAssetData).assetProxyId ===
-                        ordersFilterParams.makerAssetProxyId,
+                    ordersFilterParams.makerAssetProxyId,
             )
             .filter(
                 // makerAssetProxyId
                 signedOrder =>
                     ordersFilterParams.takerAssetProxyId === undefined ||
                     assetDataUtils.decodeAssetDataOrThrow(signedOrder.takerAssetData).assetProxyId ===
-                        ordersFilterParams.takerAssetProxyId,
+                    ordersFilterParams.takerAssetProxyId,
             );
         const apiOrders: APIOrder[] = signedOrders.map(signedOrder => ({ metaData: {}, order: signedOrder }));
         const paginatedApiOrders = paginate(apiOrders, page, perPage);

@@ -17,6 +17,7 @@ export class OrderWatcherAdapter {
     private readonly _contractWrappers: ContractWrappers;
     private readonly _shadowedOrderHashes: Map<string, number>;
     private readonly _orders: Map<string, SignedOrder>;
+    private readonly _lifeCycleEventCallback: OrderWatcherLifeCycleCallback;
     constructor(
         provider: Provider,
         networkId: number,
@@ -25,6 +26,7 @@ export class OrderWatcherAdapter {
     ) {
         this._shadowedOrderHashes = new Map();
         this._orders = new Map();
+        this._lifeCycleEventCallback = lifeCycleEventCallback;
         this._orderWatcher = new OrderWatcher(provider, networkId);
         this._orderWatcher.subscribe((err, orderState) => {
             if (err) {
@@ -77,6 +79,7 @@ export class OrderWatcherAdapter {
                 accepted.push({ order, message: undefined });
                 const orderHash = orderHashUtils.getOrderHashHex(order);
                 this._orders.set(orderHash, order);
+                this._lifeCycleEventCallback(OrderWatcherLifeCycleEvents.Add, order);
             } catch (err) {
                 rejected.push({ order, message: err.message });
             }

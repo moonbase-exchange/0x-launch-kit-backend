@@ -121,14 +121,14 @@ export class MeshAdapter {
         }
         const orderChunks = _.chunk(orders, BATCH_SIZE);
         for (const chunk of orderChunks) {
-            const result = await this._submitOrdersToMeshAsync(chunk);
-            const adaptAcceptedValidationResults: AdaptedOrderAndValidationResult[] = result.accepted.map(r => ({
+            const { accepted, rejected } = await this._submitOrdersToMeshAsync(chunk);
+            const adaptAcceptedValidationResults: AdaptedOrderAndValidationResult[] = (accepted || []).map(r => ({
                 order: orderParsingUtils.convertOrderStringFieldsToBigNumber(r.signedOrder),
                 message: undefined,
             }));
-            const adaptRejectedValidationResults: AdaptedOrderAndValidationResult[] = result.rejected.map(r => ({
+            const adaptRejectedValidationResults: AdaptedOrderAndValidationResult[] = (rejected || []).map(r => ({
                 order: orderParsingUtils.convertOrderStringFieldsToBigNumber(r.signedOrder),
-                message: r.kind,
+                message: `${r.kind} ${(r.status as any).Code}: ${(r.status as any).Message}`,
             }));
             validationResults.accepted = [...validationResults.accepted, ...adaptAcceptedValidationResults];
             validationResults.rejected = [...validationResults.rejected, ...adaptRejectedValidationResults];
@@ -136,13 +136,13 @@ export class MeshAdapter {
         return validationResults;
     }
     // tslint:disable-next-line: prefer-function-over-method no-empty
-    public removeOrders(_orders: SignedOrder[]): void {}
+    public removeOrders(_orders: SignedOrder[]): void { }
     // tslint:disable-next-line: prefer-function-over-method
     public orderFilter(_order: SignedOrder): boolean {
         return false;
     }
     private async _connectToMeshAsync(): Promise<void> {
-        while (true) {
+        while (!this._isConnectedToMesh) {
             try {
                 this._wsClient = new Web3Providers.WebsocketProvider(MESH_ENDPOINT);
                 const subscriptionId = await this._wsClient.subscribe('mesh_subscribe', 'orders', []);
