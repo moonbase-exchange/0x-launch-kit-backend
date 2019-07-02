@@ -190,8 +190,11 @@ export class OrderBook {
         const signedOrders = signedOrderModels.map(deserializeOrder);
         const { rejected } = await this._orderWatcher.addOrdersAsync(signedOrders);
         for (const rejectedResult of rejected) {
-            const orderHash = orderHashUtils.getOrderHashHex(rejectedResult.order);
-            await connection.manager.delete(SignedOrderModel, orderHash);
+            // Mesh Order has already stored the order, this is not an invalidation, so don't delete
+            if (rejectedResult.message && rejectedResult.message.indexOf('OrderAlreadyStored') === -1) {
+                const orderHash = orderHashUtils.getOrderHashHex(rejectedResult.order);
+                await connection.manager.delete(SignedOrderModel, orderHash);
+            }
         }
     }
 }
