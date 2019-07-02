@@ -5,10 +5,10 @@ import { Provider } from 'ethereum-types';
 
 import { DEFAULT_TAKER_SIMULATION_ADDRESS, ORDER_SHADOWING_MARGIN_MS, PERMANENT_CLEANUP_INTERVAL_MS } from '../config';
 import {
+    AdaptedOrderAndValidationResult,
+    AdaptedValidationResults,
     OrderWatcherLifeCycleCallback,
     OrderWatcherLifeCycleEvents,
-    AdaptedValidationResults,
-    AdaptedOrderAndValidationResult,
 } from '../types';
 import { utils } from '../utils';
 

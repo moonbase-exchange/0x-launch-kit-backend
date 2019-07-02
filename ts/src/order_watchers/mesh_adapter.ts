@@ -5,10 +5,10 @@ import * as Web3Providers from 'web3-providers';
 
 import { MESH_ENDPOINT } from '../config';
 import {
+    AdaptedOrderAndValidationResult,
+    AdaptedValidationResults,
     OrderWatcherLifeCycleCallback,
     OrderWatcherLifeCycleEvents,
-    AdaptedValidationResults,
-    AdaptedOrderAndValidationResult,
 } from '../types';
 import { utils } from '../utils';
 
