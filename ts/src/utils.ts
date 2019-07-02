@@ -24,6 +24,9 @@ export const utils = {
             throw new ValidationError(validationErrorItems);
         }
     },
+    async sleepAsync(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    },
 };
 
 function schemaValidationErrorToValidationErrorItem(schemaValidationError: SchemaValidationError): ValidationErrorItem {
