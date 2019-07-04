@@ -18,8 +18,13 @@ enum EnvVarType {
 // Whitelisted token addresses. Set to a '*' instead of an array to allow all tokens.
 export const WHITELISTED_TOKENS: string[] | '*' = _.isEmpty(process.env.WHITELIST_ALL_TOKENS)
     ? [
-          '0x2002d3812f58e35f0ea1ffbf80a75a38c32175fa', // ZRX on Kovan
-          '0xd0a1e359811322d97991e03f863a0c30c2cf029c', // WETH on Kovan
+          '0x25629a835075cab4ff0f340ee6a350aa16ca475a', // BTCV on Mainnet
+          '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // WETH on Mainnet
+          '0xe41d2489571d322189246dafa5ebde1f4699f498', // ZRX on Mainnet
+          // '0x0ff589c7d3326d58c7893399c2076f6eb79cf9a3', // BTCV on Ropsten
+          // '0xe809d1f733eb57a679118c57127021beb138b08f', // BTCV on Rinkeby
+          // '0x01ea4ad4a2882444f9bdd8fcbdc1ee41e5cf82c0', // ZRX on Ropsten
+          // '0xc778417e063141139fce010982780140aa0cd5ab', // WETH on Ropsten & Rinkeby
       ]
     : assertEnvVarType('WHITELIST_ALL_TOKENS', process.env.WHITELIST_ALL_TOKENS, EnvVarType.WhitelistAllTokens);
 
@@ -29,7 +34,7 @@ export const HTTP_PORT = _.isEmpty(process.env.HTTP_PORT)
     : assertEnvVarType('HTTP_PORT', process.env.HTTP_PORT, EnvVarType.Port);
 // Default network id to use when not specified
 export const NETWORK_ID = _.isEmpty(process.env.NETWORK_ID)
-    ? 42
+    ? 4
     : assertEnvVarType('NETWORK_ID', process.env.NETWORK_ID, EnvVarType.NetworkId);
 // The fee recipient for orders
 export const FEE_RECIPIENT = _.isEmpty(process.env.FEE_RECIPIENT)
@@ -45,7 +50,8 @@ export const TAKER_FEE_ZRX_UNIT_AMOUNT = _.isEmpty(process.env.TAKER_FEE_ZRX_UNI
     : assertEnvVarType('TAKER_FEE_ZRX_UNIT_AMOUNT', process.env.TAKER_FEE_ZRX_UNIT_AMOUNT, EnvVarType.UnitAmount);
 // Ethereum RPC url
 export const RPC_URL = _.isEmpty(process.env.RPC_URL)
-    ? 'https://kovan.infura.io/v3/e2c067d9717e492091d1f1d7a2ec55aa'
+    // ? 'https://rinkeby.infura.io/v3/50f53147cd654a88afd83a54f96dbe91'
+    ? 'https://mainnet.infura.io/v3/50f53147cd654a88afd83a54f96dbe91'
     : assertEnvVarType('RPC_URL', process.env.RPC_URL, EnvVarType.Url);
 
 // Address used when simulating transfers from the maker as part of 0x order validation
