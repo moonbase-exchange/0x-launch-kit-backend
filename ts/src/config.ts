@@ -20,7 +20,7 @@ export const WHITELISTED_TOKENS: string[] | '*' = _.isEmpty(process.env.WHITELIS
     ? [
           '0x25629a835075cab4ff0f340ee6a350aa16ca475a', // BTCV on Mainnet
           '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // WETH on Mainnet
-          '0xe41d2489571d322189246dafa5ebde1f4699f498', // ZRX on Mainnet
+          '0xE41d2489571d322189246DaFA5ebDe1F4699F498', // ZRX on Mainnet
           // '0x0ff589c7d3326d58c7893399c2076f6eb79cf9a3', // BTCV on Ropsten
           // '0xe809d1f733eb57a679118c57127021beb138b08f', // BTCV on Rinkeby
           // '0x01ea4ad4a2882444f9bdd8fcbdc1ee41e5cf82c0', // ZRX on Ropsten
